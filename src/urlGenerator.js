@@ -18,7 +18,7 @@ const loop = (item, probability) => {
   }
 };
 
-fs.createReadStream('data.csv')
+fs.createReadStream('src/data.csv')
   .pipe(csv())
   .on('data', (data) => results.push(data))
   .on('end', () => {
@@ -26,7 +26,7 @@ fs.createReadStream('data.csv')
     createProbabilityArray(top100);
     loop(final);
     fs.writeFile(
-      './urls.json',
+      './src/urls.json',
       JSON.stringify(probArray),
 
       function (err) {
