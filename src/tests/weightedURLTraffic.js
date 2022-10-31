@@ -5,7 +5,7 @@ import {
 } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 import { SharedArray } from 'k6/data';
 import http from 'k6/http';
-import { goToPage } from './actions/goToPage.js';
+import { goToPage } from '../actions/goToPage.js';
 
 export const options = {
   stages: [

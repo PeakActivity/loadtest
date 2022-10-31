@@ -1,7 +1,7 @@
 import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
-import { goToPage } from './actions/goToPage.js';
-import addToCart from './actions/addToCart.js';
-import { checkout } from './actions/checkout.js';
+import { goToPage } from '../actions/goToPage.js';
+import { addToCart } from '../actions/addToCart.js';
+import { checkout } from '../actions/checkout.js';
 import { group } from 'k6';
 
 export const options = {

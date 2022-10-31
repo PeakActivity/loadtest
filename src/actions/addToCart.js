@@ -222,9 +222,6 @@ export const addToCart = () => {
     headers: {
       'Content-Type': 'application/json',
     },
-    tags: {
-      name: 'add-to-cart',
-    },
   };
 
   // Add To Cart request
@@ -238,7 +235,3 @@ export const addToCart = () => {
     'is status 200': (r) => r.status === 200,
   });
 };
-
-export default function () {
-  addToCart();
-}
