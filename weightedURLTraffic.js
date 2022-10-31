@@ -5,16 +5,17 @@ import {
 } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 import { SharedArray } from 'k6/data';
 import http from 'k6/http';
+import { goToPage } from './actions/goToPage.js';
 
 export const options = {
   stages: [
-    { duration: '10s', target: 1 }, // below normal load
-    //   { duration: '1m', target: 100 },
-    //   { duration: '10s', target: 1400 }, // spike to 1400 users
-    //   { duration: '3m', target: 1400 }, // stay at 1400 for 3 minutes
-    //   { duration: '10s', target: 100 }, // scale down. Recovery stage.
-    //   { duration: '3m', target: 100 },
-    //   { duration: '10s', target: 0 },
+    // { duration: '10s', target: 1 }, // below normal load
+    // { duration: '1m', target: 100 },
+    // { duration: '10s', target: 1400 }, // spike to 1400 users
+    // { duration: '3m', target: 1400 }, // stay at 1400 for 3 minutes
+    // { duration: '10s', target: 100 }, // scale down. Recovery stage.
+    // { duration: '3m', target: 100 },
+    // { duration: '10s', target: 0 },
   ],
 };
 
