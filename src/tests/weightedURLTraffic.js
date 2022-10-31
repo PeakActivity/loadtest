@@ -5,7 +5,6 @@ import {
 } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 import { SharedArray } from 'k6/data';
 import http from 'k6/http';
-import { goToPage } from '../actions/goToPage.js';
 
 export const options = {
   stages: [
@@ -21,7 +20,7 @@ export const options = {
 
 const data = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
-  const f = JSON.parse(open('./urls.json'));
+  const f = JSON.parse(open('../utils/urls.json'));
   return f; // f must be an array[]
 });
 
@@ -29,7 +28,8 @@ const data = new SharedArray('urls', function () {
 export default function () {
   const createRandomURL = () => {
     const randomPath = randomItem(data);
-    return __ENV.BASE_URL + randomPath;
+    const basePath = 'https://www.shoesforcrews.com';
+    return basePath + randomPath;
   };
 
   const res = http.get(createRandomURL());
