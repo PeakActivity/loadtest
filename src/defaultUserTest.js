@@ -23,22 +23,31 @@ export const options = {
 
 // Run by Virtual User once per iteration
 export default function () {
+  // Go to home page
   goToPage('https://www.shoesforcrews.com');
   console.log('at home page');
+  // 46.98% chance the user goes to PLP page
   const firstGate = randomIntBetween(1, 10000);
   if (firstGate <= 4698) return;
+  // Go to PLP page
   goToPage('https://www.shoesforcrews.com/catalog/men-view-all');
   console.log('at plp page');
+  // 56.76% change the user goes to PDP page
   const secondGate = randomIntBetween(1, 10000);
   if (secondGate <= 5676) return;
+  // Go to PDP page
   goToPage('https://www.shoesforcrews.com/product/22149-everlight');
   console.log('at pdp page');
+  // 9.30% change the user adds to cart
   const thirdGate = randomIntBetween(1, 10000);
   if (thirdGate <= 930) return;
+  // Add item to cart
   addToCart();
   console.log('added product to cart');
+  // 5.60% chance the user checks out
   const fourthGate = randomIntBetween(1, 10000);
   if (fourthGate <= 560) return;
+  // Checkout
   checkout();
   console.log('checked out');
 }
