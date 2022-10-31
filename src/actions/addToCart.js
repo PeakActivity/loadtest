@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { check, group, sleep } from 'k6';
+import { check } from 'k6';
 
 export const addToCart = () => {
   let body = JSON.stringify({
@@ -227,17 +227,15 @@ export const addToCart = () => {
     },
   };
 
-  group('Add To Cart', () => {
-    // Add To Cart request
-    const add_to_cart_response = http.post(
-      'https://rev-cms.shoesforcrews.com/carts/addItem',
-      body,
-      params
-    );
+  // Add To Cart request
+  const add_to_cart_response = http.post(
+    'https://rev-cms.shoesforcrews.com/carts/addItem',
+    body,
+    params
+  );
 
-    check(add_to_cart_response, {
-      'is status 200': (r) => r.status === 200,
-    });
+  check(add_to_cart_response, {
+    'is status 200': (r) => r.status === 200,
   });
 };
 
