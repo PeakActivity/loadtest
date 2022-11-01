@@ -1,7 +1,4 @@
-import {
-  randomIntBetween,
-  randomItem,
-} from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
+import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 import { goToPage } from '../actions/goToPage.js';
 import { addToCart } from '../actions/addToCart.js';
 import { checkout } from '../actions/checkout.js';
@@ -11,7 +8,8 @@ import { goToRandomPage } from '../actions/goToRandomPage.js';
 
 export const options = {
   stages: [
-    { duration: '10s', target: 1 }, // below normal load
+    { duration: '1s', target: 1 }, // below normal load
+    { duration: '100s', target: 1 }, // below normal load
     // { duration: '10s', target: 3 },
     // { duration: '10s', target: 1400 }, // spike to 1400 users
     // { duration: '3m', target: 1400 }, // stay at 1400 for 3 minutes
@@ -21,16 +19,11 @@ export const options = {
   ],
 };
 
-const catalogData = new SharedArray('urls', function () {
+const sharedData = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
   const f = JSON.parse(open('../utils/catalogUrls.json'));
-  return f; // f must be an array[]
-});
-
-const productData = new SharedArray('urls', function () {
-  // here you can open files, and then do additional processing or generate the array with data dynamically
-  const f = JSON.parse(open('../utils/productUrls.json'));
-  return f; // f must be an array[]
+  const d = JSON.parse(open('../utils/productUrls.json'));
+  return [f, d]; // f must be an array[]
 });
 
 // Run by Virtual User once per iteration
@@ -42,17 +35,16 @@ export default function () {
   if (firstGate <= 4698) return;
 
   group('Go to product listing page', () => {
-    goToRandomPage(catalogData);
+    goToRandomPage('https://shoesforcrews.com', sharedData[0]);
   });
 
   // 56.76% chance the user goes to PDP page
   const secondGate = randomIntBetween(1, 10000);
   if (secondGate <= 5676) return;
 
-  //TODO: Randomize the product page.
-  group('Go to product description page', () =>
-    goToPage('https://www.shoesforcrews.com/product/22149-everlight')
-  );
+  group('Go to product description page', () => {
+    goToRandomPage('https://shoesforcrews.com', sharedData[1]);
+  });
 
   // 9.30% chance the user adds to cart
   const thirdGate = randomIntBetween(1, 10000);

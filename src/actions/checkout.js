@@ -6,9 +6,6 @@ export const checkout = (id) => {
   const pageResponse = http.get('https://www.shoesforcrews.com/checkout');
   check(pageResponse, {
     'is status 200': (r) => {
-      if (r.status !== 200) {
-        console.log(r);
-      }
       return r.status === 200;
     },
   });
@@ -23,9 +20,6 @@ export const checkout = (id) => {
   );
   check(getItemsResponse, {
     'is status 200': (r) => {
-      if (r.status !== 200) {
-        console.log(r);
-      }
       return r.status === 200;
     },
   });
@@ -38,9 +32,6 @@ export const checkout = (id) => {
   );
   check(calculateCartResponse, {
     'is status 200': (r) => {
-      if (r.status !== 200) {
-        console.log(r);
-      }
       return r.status === 200;
     },
   });
@@ -57,9 +48,6 @@ export const checkout = (id) => {
   );
   check(inventoryResponse, {
     'is status 200': (r) => {
-      if (r.status !== 200) {
-        console.log(r);
-      }
       return r.status === 200;
     },
   });

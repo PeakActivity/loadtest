@@ -8,6 +8,7 @@ import {
 export const goToRandomPage = (basePath, weightedUrlArray) => {
   const url = randomItem(weightedUrlArray);
   const response = http.get(basePath + url);
+
   check(response, {
     'is status 200': (r) => r.status === 200,
   });

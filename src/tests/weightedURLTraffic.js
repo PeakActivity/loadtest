@@ -4,8 +4,8 @@ import { goToRandomPage } from '../actions/goToRandomPage.js';
 // Target equals 10% traffic increase
 export const options = {
   stages: [
-    { duration: '30s', target: 1 },
-    // { duration: '15s', target: 2 },
+    { duration: '0s', target: 1 },
+    { duration: '15s', target: 1 },
     // { duration: '1m', target: 5 }, // scale up to normal load
     // { duration: '10s', target: 10 }, // spike to 10 users
     // { duration: '30s', target: 10 }, // stay at 10 for 3 minutes
@@ -23,5 +23,5 @@ const urlData = new SharedArray('urls', function () {
 
 // Run by Virtual User once per iteration
 export default function () {
-  goToRandomPage(urlData, 'https://shoesforcrews.com');
+  goToRandomPage('https://shoesforcrews.com', urlData);
 }
