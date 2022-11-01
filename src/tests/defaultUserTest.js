@@ -2,7 +2,7 @@ import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 import { goToPage } from '../actions/goToPage.js';
 import { addToCart } from '../actions/addToCart.js';
 import { checkout } from '../actions/checkout.js';
-import { group } from 'k6';
+import { group, sleep } from 'k6';
 
 export const options = {
   stages: [
@@ -19,13 +19,14 @@ export const options = {
 // Run by Virtual User once per iteration
 export default function () {
   group('Go to home page', () => goToPage('https://www.shoesforcrews.com'));
-
+  sleep(randomIntBetween(3, 5));
   // 46.98% chance the user goes to PLP page
   const firstGate = randomIntBetween(1, 10000);
   if (firstGate <= 4698) return;
   group('Go to product listing page', () =>
     goToPage('https://www.shoesforcrews.com/catalog/men-view-all')
   );
+  sleep(randomIntBetween(3, 5));
 
   // 56.76% change the user goes to PDP page
   const secondGate = randomIntBetween(1, 10000);
@@ -33,11 +34,13 @@ export default function () {
   group('Go to product description page', () =>
     goToPage('https://www.shoesforcrews.com/product/22149-everlight')
   );
+  sleep(randomIntBetween(3, 5));
 
   // 9.30% change the user adds to cart
   const thirdGate = randomIntBetween(1, 10000);
   if (thirdGate <= 930) return;
   group('Add item to cart', () => addToCart());
+  sleep(randomIntBetween(3, 5));
 
   // 5.60% chance the user checks out
   const fourthGate = randomIntBetween(1, 10000);
