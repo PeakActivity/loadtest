@@ -26,7 +26,7 @@ const sharedData = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
   const f = JSON.parse(open('../utils/catalogUrls.json'));
   const d = JSON.parse(open('../utils/productUrls.json'));
-  return [f, d]; // f must be an array[]
+  return [f, d]; // must be an array[]
 });
 
 // Run by Virtual User once per iteration
