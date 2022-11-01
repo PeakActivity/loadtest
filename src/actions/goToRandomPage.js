@@ -1,9 +1,13 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
+import {
+  randomIntBetween,
+  randomItem,
+} from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
-export const goToPage = (url) => {
-  const response = http.get(url);
+export const goToRandomPage = (basePath, weightedUrlArray) => {
+  const url = randomItem(weightedUrlArray);
+  const response = http.get(basePath + url);
   check(response, {
     'is status 200': (r) => r.status === 200,
   });
@@ -13,6 +17,5 @@ export const goToPage = (url) => {
   if (sign === 1) {
     fuzz *= -1;
   }
-  console.log(5 + fuzz);
   sleep(5 - requestDuration + fuzz);
 };

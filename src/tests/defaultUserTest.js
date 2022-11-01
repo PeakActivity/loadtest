@@ -7,6 +7,7 @@ import { addToCart } from '../actions/addToCart.js';
 import { checkout } from '../actions/checkout.js';
 import { group } from 'k6';
 import { SharedArray } from 'k6/data';
+import { goToRandomPage } from '../actions/goToRandomPage.js';
 
 export const options = {
   stages: [
@@ -26,6 +27,12 @@ const catalogData = new SharedArray('urls', function () {
   return f; // f must be an array[]
 });
 
+const productData = new SharedArray('urls', function () {
+  // here you can open files, and then do additional processing or generate the array with data dynamically
+  const f = JSON.parse(open('../utils/productUrls.json'));
+  return f; // f must be an array[]
+});
+
 // Run by Virtual User once per iteration
 export default function () {
   group('Go to home page', () => goToPage('https://www.shoesforcrews.com'));
@@ -35,15 +42,7 @@ export default function () {
   if (firstGate <= 4698) return;
 
   group('Go to product listing page', () => {
-    const createRandomURL = () => {
-      // Average Weighted array
-      const randomPath = randomItem(catalogData);
-      const basePath = 'https://www.shoesforcrews.com';
-      return basePath + randomPath;
-    };
-    const URL = createRandomURL();
-    console.log(URL);
-    goToPage(createRandomURL());
+    goToRandomPage(catalogData);
   });
 
   // 56.76% chance the user goes to PDP page

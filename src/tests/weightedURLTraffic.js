@@ -1,6 +1,5 @@
-import { randomItem } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 import { SharedArray } from 'k6/data';
-import goToPage from '../actions/goToPage.js';
+import { goToRandomPage } from '../actions/goToRandomPage.js';
 
 // Target equals 10% traffic increase
 export const options = {
@@ -16,7 +15,7 @@ export const options = {
   ],
 };
 
-const data = new SharedArray('urls', function () {
+const urlData = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
   const f = JSON.parse(open('../utils/weightedUrls.json'));
   return f; // f must be an array[]
@@ -24,12 +23,5 @@ const data = new SharedArray('urls', function () {
 
 // Run by Virtual User once per iteration
 export default function () {
-  const createRandomURL = () => {
-    // Average Weighted array
-    const randomPath = randomItem(data);
-    const basePath = 'https://www.shoesforcrews.com';
-    return basePath + randomPath;
-  };
-
-  goToPage(createRandomURL());
+  goToRandomPage(urlData, 'https://shoesforcrews.com');
 }
