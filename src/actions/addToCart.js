@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { check } from 'k6';
+import { check, sleep } from 'k6';
 
 export const addToCart = () => {
   let body = JSON.stringify({
@@ -215,7 +215,8 @@ export const addToCart = () => {
       parentId: '22149',
     },
     productId: '60a444b0eee8740010717ac8',
-    anonId: '2EVF4NE7B5IL755UFZQ',
+    //TODO: Randomize anonId and add load_test tag
+    anonId: 'load_test_2EVF4NE7B5IL755UFZQ',
   });
 
   const params = {

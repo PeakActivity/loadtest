@@ -1,0 +1,17 @@
+{
+  "home": "/",
+  "PLP": {
+    "base": "/catalog/",
+    "routes": ["women-view-all", "women-new-styles", "women-athletic"]
+  },
+  "PDP": {
+    "base": "/product",
+    "routes": [""]
+  },
+  "cart": {
+    "base": "/cart"
+  },
+  "checkout": {
+    "base": "/checkout"
+  }
+}

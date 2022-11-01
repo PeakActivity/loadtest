@@ -167,6 +167,7 @@ const testBody = JSON.stringify({
   ],
   promo: '',
   identity: {
+    //TODO: Sync this with random anonId from addToCart().
     anonId: '2EVF4NE7B5IL755UFZQ',
   },
   shippingMethods: ['G'],
