@@ -26,7 +26,7 @@ fs.createReadStream('src/data.csv')
     createProbabilityArray(top100);
     loop(final);
     fs.writeFile(
-      './src/urls.json',
+      './src/weightedUrls.json',
       JSON.stringify(probArray),
 
       function (err) {

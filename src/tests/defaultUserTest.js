@@ -28,7 +28,7 @@ export default function () {
   );
   sleep(randomIntBetween(3, 5));
 
-  // 56.76% change the user goes to PDP page
+  // 56.76% chance the user goes to PDP page
   const secondGate = randomIntBetween(1, 10000);
   if (secondGate <= 5676) return;
   group('Go to product description page', () =>
@@ -36,7 +36,7 @@ export default function () {
   );
   sleep(randomIntBetween(3, 5));
 
-  // 9.30% change the user adds to cart
+  // 9.30% chance the user adds to cart
   const thirdGate = randomIntBetween(1, 10000);
   if (thirdGate <= 930) return;
   group('Add item to cart', () => addToCart());

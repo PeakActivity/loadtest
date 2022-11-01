@@ -20,7 +20,7 @@ export const options = {
 
 const data = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
-  const f = JSON.parse(open('../utils/urls.json'));
+  const f = JSON.parse(open('../utils/weightedUrls.json'));
   return f; // f must be an array[]
 });
 
