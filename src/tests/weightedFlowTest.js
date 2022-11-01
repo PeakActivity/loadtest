@@ -1,6 +1,9 @@
-import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
-import { goToPage } from '../actions/goToPage.js';
+import {
+  randomIntBetween,
+  uuidv4,
+} from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 import { addToCart } from '../actions/addToCart.js';
+import { goToPage } from '../actions/goToPage.js';
 import { checkout } from '../actions/checkout.js';
 import { group } from 'k6';
 import { SharedArray } from 'k6/data';
@@ -28,6 +31,8 @@ const sharedData = new SharedArray('urls', function () {
 
 // Run by Virtual User once per iteration
 export default function () {
+  const anonId = 'load_test_' + uuidv4();
+
   group('Go to home page', () => goToPage('https://www.shoesforcrews.com'));
 
   // 46.98% chance the user goes to PLP page
@@ -49,10 +54,10 @@ export default function () {
   // 9.30% chance the user adds to cart
   const thirdGate = randomIntBetween(1, 10000);
   if (thirdGate <= 930) return;
-  group('Add item to cart', () => addToCart());
+  group('Add item to cart', () => addToCart(anonId));
 
   // 5.60% chance the user checks out
   const fourthGate = randomIntBetween(1, 10000);
   if (fourthGate <= 560) return;
-  group('Checkout', () => checkout());
+  group('Checkout', () => checkout(anonId));
 }
