@@ -216,7 +216,6 @@ export const addToCart = (anonId) => {
       parentId: '22149',
     },
     productId: '60a444b0eee8740010717ac8',
-    //TODO: Randomize anonId and add load_test tag
     anonId: anonId,
   });
 
@@ -226,6 +225,7 @@ export const addToCart = (anonId) => {
     },
   };
 
+  // dev link https://strapi.dev.sfc.merce.io/carts/addItem
   // Add To Cart request
   const response = http.post(
     'https://rev-cms.shoesforcrews.com/carts/addItem',

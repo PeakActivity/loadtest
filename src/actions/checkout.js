@@ -89,7 +89,6 @@ export const checkout = (anonId) => {
     ],
     promo: '',
     identity: {
-      //TODO: Sync this with random anonId from addToCart().
       anonId: anonId,
     },
     shippingMethods: ['G'],

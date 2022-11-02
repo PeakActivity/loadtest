@@ -22,6 +22,8 @@ export const options = {
   ],
 };
 
+const BASE_URL = 'https://web.dev.sfc.merce.io';
+
 const sharedData = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
   const f = JSON.parse(open('../utils/catalogUrls.json'));
@@ -33,14 +35,14 @@ const sharedData = new SharedArray('urls', function () {
 export default function () {
   const anonId = 'load_test_' + uuidv4();
 
-  group('Go to home page', () => goToPage('https://www.shoesforcrews.com'));
+  group('Go to home page', () => goToPage(BASE_URL));
 
   // 46.98% chance the user goes to PLP page
   const firstGate = randomIntBetween(1, 10000);
   if (firstGate <= 4698) return;
 
   group('Go to product listing page', () => {
-    goToRandomPage('https://shoesforcrews.com', sharedData[0]);
+    goToRandomPage(BASE_URL, sharedData[0]);
   });
 
   // 56.76% chance the user goes to PDP page
@@ -48,7 +50,7 @@ export default function () {
   if (secondGate <= 5676) return;
 
   group('Go to product description page', () => {
-    goToRandomPage('https://shoesforcrews.com', sharedData[1]);
+    goToRandomPage(BASE_URL, sharedData[1]);
   });
 
   // 9.30% chance the user adds to cart
