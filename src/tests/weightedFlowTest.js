@@ -5,14 +5,16 @@ import {
 import { addToCart } from '../actions/addToCart.js';
 import { goToPage } from '../actions/goToPage.js';
 import { checkout } from '../actions/checkout.js';
+import { getProductInventory } from '../actions/getProductInventory.js';
 import { group } from 'k6';
 import { SharedArray } from 'k6/data';
 import { goToRandomPage } from '../actions/goToRandomPage.js';
+import { getAfterPay } from '../actions/getAfterPay.js';
 
 export const options = {
   stages: [
-    { duration: '1s', target: 1 }, // below normal load
     { duration: '100s', target: 1 }, // below normal load
+    // { duration: '60s', target: 1 }, // below normal load
     // { duration: '10s', target: 3 },
     // { duration: '10s', target: 1400 }, // spike to 1400 users
     // { duration: '3m', target: 1400 }, // stay at 1400 for 3 minutes
@@ -22,7 +24,8 @@ export const options = {
   ],
 };
 
-const BASE_URL = 'https://web.dev.sfc.merce.io';
+// MAKE SURE THIS IS CANONICAL URL
+const BASE_URL = 'https://www.shoesforcrews.com';
 
 const sharedData = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
@@ -35,31 +38,44 @@ const sharedData = new SharedArray('urls', function () {
 export default function () {
   const anonId = 'load_test_' + uuidv4();
 
-  group('Go to home page', () => goToPage(BASE_URL));
+  // 27.42% chance the user lands on the home page
+  const homeGate = randomIntBetween(1, 10000);
+  if (homeGate <= 2742) {
+    group('Go to home page', () => goToPage(BASE_URL));
+  }
 
-  // 46.98% chance the user goes to PLP page
+  // 46.98% chance the user lands on the PLP page
   const firstGate = randomIntBetween(1, 10000);
-  if (firstGate <= 4698) return;
+  if (firstGate <= 4698) {
+    group('Go to product listing page', () => {
+      goToRandomPage(BASE_URL, sharedData[0]);
+    });
+  }
 
-  group('Go to product listing page', () => {
-    goToRandomPage(BASE_URL, sharedData[0]);
-  });
-
-  // 56.76% chance the user goes to PDP page
+  // 56.76% chance the user lands on the PDP page
   const secondGate = randomIntBetween(1, 10000);
-  if (secondGate <= 5676) return;
+  if (secondGate <= 5676) {
+    group('Go to product description page', () => {
+      // Go to random product
+      const response = goToRandomPage(BASE_URL, sharedData[1]);
 
-  group('Go to product description page', () => {
-    goToRandomPage(BASE_URL, sharedData[1]);
-  });
+      // Get inventory for product
+      getProductInventory(response);
+
+      // Get After Pay
+      getAfterPay();
+    });
+  }
 
   // 9.30% chance the user adds to cart
   const thirdGate = randomIntBetween(1, 10000);
-  if (thirdGate <= 930) return;
-  group('Add item to cart', () => addToCart(anonId));
+  if (thirdGate <= 930) {
+    group('Add item to cart', () => addToCart(anonId));
 
-  // 5.60% chance the user checks out
-  const fourthGate = randomIntBetween(1, 10000);
-  if (fourthGate <= 560) return;
-  group('Checkout', () => checkout(anonId));
+    // 5.60% chance the user checks out after adding to cart. 5.6/9.3 = 60.22% chance.
+    const fourthGate = randomIntBetween(1, 10000);
+    if (fourthGate <= 6022) {
+      group('Checkout', () => checkout(anonId));
+    }
+  }
 }
