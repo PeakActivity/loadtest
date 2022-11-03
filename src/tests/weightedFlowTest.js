@@ -2,15 +2,17 @@ import {
   randomIntBetween,
   uuidv4,
 } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
-import { addToCart } from '../actions/addToCart.js';
-import { goToPage } from '../actions/goToPage.js';
-import { checkout } from '../actions/checkout.js';
-import { getProductInventory } from '../actions/getProductInventory.js';
+import {
+  addToCart,
+  goToPage,
+  checkout,
+  getProductInventory,
+  getAfterPay,
+  goToCart,
+  goToRandomPage,
+} from '../actions/index.js';
 import { group } from 'k6';
 import { SharedArray } from 'k6/data';
-import { goToRandomPage } from '../actions/goToRandomPage.js';
-import { getAfterPay } from '../actions/getAfterPay.js';
-import { goToCart } from '../actions/goToCart.js';
 
 export const options = {
   stages: [

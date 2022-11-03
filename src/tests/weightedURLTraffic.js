@@ -1,5 +1,5 @@
 import { SharedArray } from 'k6/data';
-import { goToRandomPage } from '../actions/goToRandomPage.js';
+import { goToRandomPage } from '../actions/index.js';
 
 // Target equals 10% traffic increase
 export const options = {
