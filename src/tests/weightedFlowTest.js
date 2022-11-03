@@ -27,6 +27,9 @@ export const options = {
 // MAKE SURE THIS IS CANONICAL URL
 const BASE_URL = 'https://www.shoesforcrews.com';
 
+// Take pageviews into account
+const IGNORE_GATES = false;
+
 const sharedData = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
   const f = JSON.parse(open('../utils/catalogUrls.json'));
@@ -40,13 +43,15 @@ export default function () {
 
   // 27.42% chance the user lands on the home page
   const homeGate = randomIntBetween(1, 10000);
-  if (homeGate <= 2742) {
+  if (homeGate <= 2742 || IGNORE_GATES) {
+    console.log('home page');
     group('Go to home page', () => goToPage(BASE_URL));
   }
 
   // 46.98% chance the user lands on the PLP page
   const firstGate = randomIntBetween(1, 10000);
-  if (firstGate <= 4698) {
+  if (firstGate <= 4698 || IGNORE_GATES) {
+    console.log('PLP');
     group('Go to product listing page', () => {
       goToRandomPage(BASE_URL, sharedData[0]);
     });
@@ -54,7 +59,8 @@ export default function () {
 
   // 56.76% chance the user lands on the PDP page
   const secondGate = randomIntBetween(1, 10000);
-  if (secondGate <= 5676) {
+  if (secondGate <= 5676 || IGNORE_GATES) {
+    console.log('PDP');
     group('Go to product description page', () => {
       // Go to random product
       const response = goToRandomPage(BASE_URL, sharedData[1]);
@@ -69,12 +75,14 @@ export default function () {
 
   // 9.30% chance the user adds to cart
   const thirdGate = randomIntBetween(1, 10000);
-  if (thirdGate <= 930) {
+  if (thirdGate <= 930 || IGNORE_GATES) {
+    console.log('CART');
     group('Add item to cart', () => addToCart(anonId));
 
     // 5.60% chance the user checks out after adding to cart. 5.6/9.3 = 60.22% chance.
     const fourthGate = randomIntBetween(1, 10000);
-    if (fourthGate <= 6022) {
+    if (fourthGate <= 6022 || IGNORE_GATES) {
+      console.log('CHECKOUT');
       group('Checkout', () => checkout(anonId));
     }
   }
