@@ -10,6 +10,7 @@ import { group } from 'k6';
 import { SharedArray } from 'k6/data';
 import { goToRandomPage } from '../actions/goToRandomPage.js';
 import { getAfterPay } from '../actions/getAfterPay.js';
+import { goToCart } from '../actions/goToCart.js';
 
 export const options = {
   stages: [
@@ -28,7 +29,7 @@ export const options = {
 const BASE_URL = 'https://www.shoesforcrews.com';
 
 // Take pageviews into account
-const IGNORE_GATES = false;
+const IGNORE_GATES = true;
 
 const sharedData = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
@@ -44,7 +45,7 @@ export default function () {
   // 27.42% chance the user lands on the home page
   const homeGate = randomIntBetween(1, 10000);
   if (homeGate <= 2742 || IGNORE_GATES) {
-    console.log('home page');
+    console.log('HOME PAGE');
     group('Go to home page', () => goToPage(BASE_URL));
   }
 
@@ -83,7 +84,10 @@ export default function () {
     const fourthGate = randomIntBetween(1, 10000);
     if (fourthGate <= 6022 || IGNORE_GATES) {
       console.log('CHECKOUT');
-      group('Checkout', () => checkout(anonId));
+      group('Checkout', () => {
+        goToCart(anonId);
+        checkout(anonId);
+      });
     }
   }
 }
