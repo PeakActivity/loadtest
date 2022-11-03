@@ -1,6 +1,6 @@
 import http from 'k6/http';
-import { check, group, sleep } from 'k6';
-import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
+import { check, group } from 'k6';
+import { weightedSleep } from '../utils/weightedSleep.js';
 
 export const checkout = (anonId) => {
   const testBody = JSON.stringify({
@@ -147,13 +147,7 @@ export const checkout = (anonId) => {
         return r.status === 200;
       },
     });
-    const requestDuration = inventoryResponse.timings.duration / 1000;
-    let fuzz = randomIntBetween(0, 1000) / 1000;
-    const sign = randomIntBetween(0, 1);
-    if (sign === 1) {
-      fuzz *= -1;
-    }
-    sleep(5 - requestDuration + fuzz);
+    weightedSleep(5, inventoryResponse);
   });
 };
 
