@@ -14,16 +14,13 @@ import {
 import { group } from 'k6';
 import { SharedArray } from 'k6/data';
 
+// 10 user = 1x
+// 20 user = 2x ...
 export const options = {
   stages: [
-    { duration: '100s', target: 1 }, // below normal load
-    // { duration: '60s', target: 1 }, // below normal load
-    // { duration: '10s', target: 3 },
-    // { duration: '10s', target: 1400 }, // spike to 1400 users
-    // { duration: '3m', target: 1400 }, // stay at 1400 for 3 minutes
-    // { duration: '10s', target: 100 }, // scale down. Recovery stage.
-    // { duration: '3m', target: 100 },
-    // { duration: '10s', target: 0 },
+    { duration: '10s', target: 1 }, // Scale over 5 mins.
+    // { duration: '300s', target: 10 }, // Scale over 5 mins.
+    // { duration: '600s', target: 10 }, // Stay for 10 mins.
   ],
 };
 
@@ -31,7 +28,7 @@ export const options = {
 const BASE_URL = 'https://www.shoesforcrews.com';
 
 // Take pageviews into account
-const IGNORE_GATES = true;
+const IGNORE_GATES = false;
 
 const sharedData = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically

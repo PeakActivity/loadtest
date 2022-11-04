@@ -107,7 +107,7 @@ export const calculateCart = (anonId) => {
       return r.status === 200;
     },
   });
-  weightedSleep(5, response);
+  // weightedSleep(5, response);
   return response;
 };
 

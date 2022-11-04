@@ -12,5 +12,5 @@ export const getAfterPay = () => {
     'is status 200': (r) => r.status === 200,
   });
 
-  weightedSleep(5, response);
+  // weightedSleep(5, response);
 };

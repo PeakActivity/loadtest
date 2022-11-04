@@ -18,7 +18,7 @@ export const getBulkInventory = () => {
       return r.status === 200;
     },
   });
-  weightedSleep(5, response);
+  // weightedSleep(5, response);
 };
 
 const inventoryBody = JSON.stringify({

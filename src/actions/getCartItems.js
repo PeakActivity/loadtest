@@ -16,5 +16,5 @@ export const getCartItems = (anonId) => {
       return r.status === 200;
     },
   });
-  weightedSleep(5, response);
+  // weightedSleep(5, response);
 };
