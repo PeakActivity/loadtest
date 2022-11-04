@@ -51,7 +51,7 @@ export default function () {
   const firstGate = randomIntBetween(1, 10000);
   if (firstGate <= 4698 || IGNORE_GATES) {
     group('Go to product listing page', () => {
-      goToRandomPage(BASE_URL, sharedData[0]);
+      goToRandomPage(BASE_URL, sharedData[0], { name: 'Product Listing Page' });
     });
   }
 
@@ -60,7 +60,9 @@ export default function () {
   if (secondGate <= 5676 || IGNORE_GATES) {
     group('Go to product description page', () => {
       // Go to random product
-      const response = goToRandomPage(BASE_URL, sharedData[1]);
+      const response = goToRandomPage(BASE_URL, sharedData[1], {
+        name: 'Product Detail Page',
+      });
 
       // Get inventory for product
       getProductInventory(response);
