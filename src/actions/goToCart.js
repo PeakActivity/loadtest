@@ -6,7 +6,6 @@ import { calculateCart } from './calculateCart.js';
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
 export const goToCart = (anonId) => {
-  console.log('go to cart');
   // Go to cart page
   goToPage('https://www.shoesforcrews.com/cart');
 

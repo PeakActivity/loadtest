@@ -3,7 +3,6 @@ import { check } from 'k6';
 import { weightedSleep } from '../utils/weightedSleep.js';
 
 export const addToCart = (anonId) => {
-  console.log('add to cart');
   let body = JSON.stringify({
     product: {
       variantId: '22149-7',

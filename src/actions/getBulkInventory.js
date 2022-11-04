@@ -3,7 +3,6 @@ import { weightedSleep } from '../utils/weightedSleep.js';
 import { check } from 'k6';
 
 export const getBulkInventory = () => {
-  console.log('get bulk inventory');
   const response = http.post(
     'https://rev-api-proxy.shoesforcrews.com/api/bulkinventory/',
     inventoryBody,

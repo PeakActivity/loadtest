@@ -4,7 +4,6 @@ import { check } from 'k6';
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
 export const calculateCart = (anonId) => {
-  console.log('calculate cart');
   const cartBody = {
     shippingAddress: {
       country: 'US',

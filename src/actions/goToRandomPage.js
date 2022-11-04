@@ -5,7 +5,6 @@ import { weightedSleep } from '../utils/weightedSleep.js';
 
 export const goToRandomPage = (basePath, weightedUrlArray) => {
   const url = randomItem(weightedUrlArray);
-  console.log(`go to random page: ${basePath + url}`);
   const response = http.get(basePath + url);
 
   check(response, {

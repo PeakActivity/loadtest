@@ -5,8 +5,6 @@ import { getCartItems } from './getCartItems.js';
 import { goToPage } from './goToPage.js';
 
 export const checkout = (anonId) => {
-  console.log('checkout');
-
   group('Go to checkout page', () => {
     goToPage('https://www.shoesforcrews.com/checkout');
   });

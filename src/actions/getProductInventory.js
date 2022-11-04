@@ -4,7 +4,6 @@ import { URL } from 'https://jslib.k6.io/url/1.0.0/index.js';
 import { weightedSleep } from '../utils/weightedSleep.js';
 
 export const getProductInventory = (productUrl) => {
-  console.log('get product inventory');
   const url = new URL(productUrl);
   const productName = url.pathname.replace('/product/', '');
   let productId = '';
