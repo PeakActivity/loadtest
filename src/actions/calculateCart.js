@@ -3,7 +3,7 @@ import http from 'k6/http';
 import { check } from 'k6';
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
-export const calculateCart = (anonId) => {
+export const calculateCart = (anonId, promo) => {
   const cartBody = {
     shippingAddress: {
       country: 'US',
@@ -92,6 +92,9 @@ export const calculateCart = (anonId) => {
     identity: { anonId: anonId },
     isTaxExempt: false,
   };
+  if (promo) {
+    cartBody['promo'] = promo;
+  }
   const response = http.post(
     'https://rev-api-proxy.shoesforcrews.com/api/cart/calculate',
     JSON.stringify(cartBody),
@@ -112,5 +115,5 @@ export const calculateCart = (anonId) => {
 
 export default function () {
   const anonId = 'load_test_' + uuidv4();
-  const response = calculateCart(anonId);
+  calculateCart(anonId, 'BKF635');
 }

@@ -13,14 +13,16 @@ import {
 } from '../actions/index.js';
 import { group } from 'k6';
 import { SharedArray } from 'k6/data';
+import { postGlobalPromo } from '../actions/postGlobalPromo.js';
+import calculateGlobalPromo from '../actions/calculateGlobalPromo.js';
 
 // 10 user = 1x
 // 20 user = 2x ...
 export const options = {
   stages: [
-    // { duration: '10s', target: 1 }, // Scale over 5 mins.
-    { duration: '300s', target: 30 }, // Scale over 5 mins.
-    { duration: '600s', target: 30 }, // Stay for 10 mins.
+    { duration: '10s', target: 1 }, // Scale over 5 mins.
+    // { duration: '300s', target: 30 }, // Scale over 5 mins.
+    // { duration: '600s', target: 30 }, // Stay for 10 mins.
   ],
 };
 
@@ -28,7 +30,10 @@ export const options = {
 const BASE_URL = 'https://www.shoesforcrews.com';
 
 // Take pageviews into account
-const IGNORE_GATES = false;
+const IGNORE_GATES = true;
+
+// Global Promo Code
+const GLOBAL_PROMO_CODE = 'BKF635';
 
 const sharedData = new SharedArray('urls', function () {
   // here you can open files, and then do additional processing or generate the array with data dynamically
@@ -52,6 +57,7 @@ export default function () {
   if (firstGate <= 4698 || IGNORE_GATES) {
     group('Go to product listing page', () => {
       goToRandomPage(BASE_URL, sharedData[0], { name: 'Product Listing Page' });
+      postGlobalPromo(anonId, GLOBAL_PROMO_CODE);
     });
   }
 
@@ -66,6 +72,9 @@ export default function () {
 
       // Get inventory for product
       getProductInventory(response);
+
+      // Calculate Promo Price
+      calculateGlobalPromo(anonId, GLOBAL_PROMO_CODE);
 
       // Get After Pay
       getAfterPay();
