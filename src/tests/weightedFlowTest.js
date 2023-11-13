@@ -14,23 +14,29 @@ import {
 import { group } from 'k6';
 import { SharedArray } from 'k6/data';
 import { postGlobalPromo } from '../actions/postGlobalPromo.js';
-import calculateGlobalPromo from '../actions/calculateGlobalPromo.js';
+import { calculateGlobalPromo } from '../actions/calculateGlobalPromo.js';
 
 // 10 user = 1x
 // 20 user = 2x ...
 export const options = {
   stages: [
-    { duration: '10s', target: 1 }, // Scale over 5 mins.
-    // { duration: '300s', target: 30 }, // Scale over 5 mins.
-    // { duration: '600s', target: 30 }, // Stay for 10 mins.
+    { duration: '0s', target: 1 }, // Scale over 5 mins.
+    { duration: '100s', target: 50 }, // Scale over 5 mins.
+    { duration: '600s', target: 50 }, // Stay for 10 mins.
   ],
+  ext: {
+    loadimpact: {
+      projectID: '3669207',
+      name: 'Weighted User Flow Test',
+    },
+  },
 };
 
 // MAKE SURE THIS IS CANONICAL URL
 const BASE_URL = 'https://www.shoesforcrews.com';
 
 // Take pageviews into account
-const IGNORE_GATES = true;
+const IGNORE_GATES = false;
 
 // Global Promo Code
 const GLOBAL_PROMO_CODE = 'BKF635';
@@ -56,7 +62,9 @@ export default function () {
   const firstGate = randomIntBetween(1, 10000);
   if (firstGate <= 4698 || IGNORE_GATES) {
     group('Go to product listing page', () => {
+      // Go to product list page
       goToRandomPage(BASE_URL, sharedData[0], { name: 'Product Listing Page' });
+      // Calculate promo prices
       postGlobalPromo(anonId, GLOBAL_PROMO_CODE);
     });
   }

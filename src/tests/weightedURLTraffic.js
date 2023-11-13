@@ -6,13 +6,19 @@ export const options = {
   stages: [
     { duration: '0s', target: 1 },
     { duration: '15s', target: 1 },
-    // { duration: '1m', target: 5 }, // scale up to normal load
+    { duration: '1m', target: 5 }, // scale up to normal load
     // { duration: '10s', target: 10 }, // spike to 10 users
     // { duration: '30s', target: 10 }, // stay at 10 for 3 minutes
     // { duration: '10s', target: 5 }, // scale down. Recovery stage.
     // { duration: '5s', target: 1 }, // stay at normal load.
     // { duration: '10s', target: 0 }, // scale to zero and end test.
   ],
+  ext: {
+    loadimpact: {
+      projectID: '3669207',
+      name: 'Weighted URL Traffic Test',
+    },
+  },
 };
 
 const urlData = new SharedArray('urls', function () {
